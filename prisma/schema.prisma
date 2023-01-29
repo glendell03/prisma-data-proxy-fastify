@@ -6,3 +6,54 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+enum AccType {
+  FREELANCER
+  CLIENT
+}
+
+model Users {
+  id           String     @id @default(uuid())
+  username     String?    @unique
+  email        String?    @unique
+  name         String
+  profileImage String?
+  accType      AccType
+  created_at   DateTime   @default(now())
+  updated_at   DateTime   @updatedAt()
+  Profile      Profile?
+  Projects     Projects[]
+}
+
+model Profile {
+  id             String   @id @default(uuid())
+  roles          String[]
+  openToWork     Boolean  @default(false)
+  availability   String[]
+  skills         String[]
+  summary        String?
+  socials        Json?
+  paymentMethods String[]
+  country        String?
+  languages      Json[]
+  Users          Users    @relation(fields: [usersId], references: [id])
+  usersId        String   @unique
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt()
+}
+
+model Projects {
+  id                 String   @id @default(uuid())
+  logo               String?
+  name               String
+  position           String
+  description        String
+  Link               String?
+  isCurrentlyWorking Boolean
+  startDate          DateTime
+  endDate            DateTime
+  Users              Users    @relation(fields: [usersId], references: [id])
+  usersId            String
+  created_at         DateTime @default(now())
+  updated_at         DateTime @updatedAt()
+}

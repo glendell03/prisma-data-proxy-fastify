@@ -6,7 +6,7 @@ const port = 3010
 
 const paths = {
   dist: path.join(__dirname, 'dist', 'src'),
-  cert: path.join(__dirname, 'dist', 'certs'),
+  // cert: path.join(__dirname, 'dist', 'certs'),
 }
 
 const entrypoint = path.join(__dirname, 'src', 'server.ts')
@@ -17,11 +17,11 @@ export default defineConfig(async (options) => {
     fs.rmSync(paths.dist, { recursive: true, force: true })
   }
 
-  if (!fs.existsSync(paths.cert)) {
-    fs.mkdirpSync(paths.cert)
-    // prettier-ignore
-    await $`mkcert -key-file ${path.join(paths.cert,'cert-key.pem')} -cert-file ${path.join(paths.cert,'cert.pem')} "localhost"`
-  }
+  // if (!fs.existsSync(paths.cert)) {
+  //   fs.mkdirpSync(paths.cert)
+  //   // prettier-ignore
+  //   await $`mkcert -key-file ${path.join(paths.cert,'cert-key.pem')} -cert-file ${path.join(paths.cert,'cert.pem')} "localhost"`
+  // }
 
   if (
     !fs.existsSync(path.join(__dirname, 'node_modules', '.prisma', 'client'))
